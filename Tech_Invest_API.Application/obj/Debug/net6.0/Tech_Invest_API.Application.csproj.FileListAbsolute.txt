@@ -1,0 +1,15 @@
+C:\Users\HP\Documents\Git\Projetos\Tech Invest\Tech_Invest_API.Application\bin\Debug\net6.0\Tech_Invest_API.Application.deps.json
+C:\Users\HP\Documents\Git\Projetos\Tech Invest\Tech_Invest_API.Application\bin\Debug\net6.0\Tech_Invest_API.Application.dll
+C:\Users\HP\Documents\Git\Projetos\Tech Invest\Tech_Invest_API.Application\bin\Debug\net6.0\Tech_Invest_API.Application.pdb
+C:\Users\HP\Documents\Git\Projetos\Tech Invest\Tech_Invest_API.Application\obj\Debug\net6.0\Tech_Invest_API.Application.csproj.AssemblyReference.cache
+C:\Users\HP\Documents\Git\Projetos\Tech Invest\Tech_Invest_API.Application\obj\Debug\net6.0\Tech_Invest_API.Application.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\HP\Documents\Git\Projetos\Tech Invest\Tech_Invest_API.Application\obj\Debug\net6.0\Tech_Invest_API.Application.AssemblyInfoInputs.cache
+C:\Users\HP\Documents\Git\Projetos\Tech Invest\Tech_Invest_API.Application\obj\Debug\net6.0\Tech_Invest_API.Application.AssemblyInfo.cs
+C:\Users\HP\Documents\Git\Projetos\Tech Invest\Tech_Invest_API.Application\obj\Debug\net6.0\Tech_Invest_API.Application.csproj.CoreCompileInputs.cache
+C:\Users\HP\Documents\Git\Projetos\Tech Invest\Tech_Invest_API.Application\obj\Debug\net6.0\Tech_Invest_API.Application.dll
+C:\Users\HP\Documents\Git\Projetos\Tech Invest\Tech_Invest_API.Application\obj\Debug\net6.0\refint\Tech_Invest_API.Application.dll
+C:\Users\HP\Documents\Git\Projetos\Tech Invest\Tech_Invest_API.Application\obj\Debug\net6.0\Tech_Invest_API.Application.pdb
+C:\Users\HP\Documents\Git\Projetos\Tech Invest\Tech_Invest_API.Application\obj\Debug\net6.0\ref\Tech_Invest_API.Application.dll
+C:\Users\HP\Documents\Git\Projetos\Tech Invest\Tech_Invest_API.Application\bin\Debug\net6.0\Tech_Invest_API.Domain.dll
+C:\Users\HP\Documents\Git\Projetos\Tech Invest\Tech_Invest_API.Application\bin\Debug\net6.0\Tech_Invest_API.Domain.pdb
+C:\Users\HP\Documents\Git\Projetos\Tech Invest\Tech_Invest_API.Application\obj\Debug\net6.0\Tech_Invest_API.Application.csproj.CopyComplete

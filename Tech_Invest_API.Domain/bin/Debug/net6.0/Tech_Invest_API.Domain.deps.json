@@ -1,0 +1,23 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v6.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v6.0": {
+      "Tech_Invest_API.Domain/1.0.0": {
+        "runtime": {
+          "Tech_Invest_API.Domain.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "Tech_Invest_API.Domain/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}
