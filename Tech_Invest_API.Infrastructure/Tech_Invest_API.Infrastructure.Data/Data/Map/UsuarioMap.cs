@@ -13,6 +13,7 @@ internal class UsuarioMap : IEntityTypeConfiguration<Usuario>
         builder.Property(x => x.Email).IsRequired().HasMaxLength(100);
         builder.Property(x => x.SenhaHash).IsRequired();
         builder.Property(x => x.SenhaSalt).IsRequired();
+        builder.Property(x => x.UserRole).IsRequired();
 
         builder.Ignore(x => x.Senha);
     }

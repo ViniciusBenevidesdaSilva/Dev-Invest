@@ -68,6 +68,7 @@ public class UsuarioService : IUsuarioService
         usuarioBanco.Nome = usuarioModel.Nome;
         usuarioBanco.Email = usuarioModel.Email;
         usuarioBanco.Senha = usuarioModel.Senha;
+        usuarioBanco.UserRole = usuarioModel.UserRole;
 
         usuario.Senha = string.Empty;
 
@@ -91,6 +92,7 @@ public class UsuarioService : IUsuarioService
 
         usuario.Id = usuarioBanco.Id;
         usuario.Nome = usuarioBanco.Nome;
+        usuario.UserRole = usuarioBanco.UserRole;
 
         return usuario;
     }
@@ -121,6 +123,9 @@ public class UsuarioService : IUsuarioService
 
         if (usuario?.Senha?.Length < 3)
             retorno.Add("A senha deve possuir ao menos 3 caracteres");
+
+        if (!usuario.UserRole.HasValue)
+            retorno.Add("User Role inválido.");
 
         return retorno;
     }

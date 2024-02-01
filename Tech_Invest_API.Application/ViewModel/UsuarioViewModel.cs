@@ -1,4 +1,6 @@
-﻿namespace Tech_Invest_API.Application.ViewModel;
+﻿using Tech_Invest_API.Domain.Utils.Enums;
+
+namespace Tech_Invest_API.Application.ViewModel;
 
 public class UsuarioViewModel
 {
@@ -6,4 +8,5 @@ public class UsuarioViewModel
     public string? Nome { get; set; }
     public string? Email { get; set; }
     public string? Senha { get; set; }
+    public UserRole? UserRole { get; set; }
 }

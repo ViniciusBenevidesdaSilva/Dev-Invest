@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using System.Security.Claims;
+using Tech_Invest_API.Domain.Utils.Enums;
 
 namespace Tech_Invest_API.Domain.Utils.AuthorizationHandler;
 
@@ -16,7 +17,7 @@ public class UpdateUsuarioAuthorizationHandler : AuthorizationHandler<UpdateUsua
 
     protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, UpdateUsuarioRequirement requirement)
     {
-        if (context.User.IsInRole("Admin"))
+        if (context.User.IsInRole(UserRole.Admin.ToString()))
         {
             context.Succeed(requirement);
             return Task.CompletedTask;

@@ -28,7 +28,7 @@ public class TokenController : ControllerBase
     {
         try
         {
-            request = await _usuarioService.AutenticarUsuario(request);
+            request = (await _usuarioService.AutenticarUsuario(request))!;
             if (request is null)
                 return BadRequest("Credenciais inválidas");
         }
@@ -41,7 +41,7 @@ public class TokenController : ControllerBase
         {
             new Claim(ClaimTypes.Name, request.Nome!),
             new Claim(ClaimTypes.Email, request.Email!),
-            new Claim(ClaimTypes.Role, "User"),
+            new Claim(ClaimTypes.Role, request.UserRole.ToString()!),
             new Claim(ClaimTypes.NameIdentifier, request.Id.ToString())
         };
 
