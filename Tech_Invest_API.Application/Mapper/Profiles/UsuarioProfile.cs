@@ -9,7 +9,8 @@ public class UsuarioProfile : Profile
 {
     public UsuarioProfile()
     {
-        CreateMap<Usuario, UsuarioViewModel>();
+        CreateMap<Usuario, UsuarioViewModel>()
+            .ForMember(dest => dest.Senha, opt => opt.MapFrom(src => string.Empty));
         CreateMap<UsuarioViewModel, Usuario>()
             .ForMember(dest => dest.Senha, opt => opt.MapFrom<SenhaResolver>());
     }

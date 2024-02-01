@@ -9,3 +9,4 @@ C:\Users\HP\Documents\Git\Projetos\Tech Invest\Tech_Invest_API.Domain\obj\Debug\
 C:\Users\HP\Documents\Git\Projetos\Tech Invest\Tech_Invest_API.Domain\obj\Debug\net6.0\refint\Tech_Invest_API.Domain.dll
 C:\Users\HP\Documents\Git\Projetos\Tech Invest\Tech_Invest_API.Domain\obj\Debug\net6.0\Tech_Invest_API.Domain.pdb
 C:\Users\HP\Documents\Git\Projetos\Tech Invest\Tech_Invest_API.Domain\obj\Debug\net6.0\ref\Tech_Invest_API.Domain.dll
+C:\Users\HP\Documents\Git\Projetos\Tech Invest\Tech_Invest_API.Domain\obj\Debug\net6.0\Tech_Invest_API.Domain.csproj.AssemblyReference.cache
