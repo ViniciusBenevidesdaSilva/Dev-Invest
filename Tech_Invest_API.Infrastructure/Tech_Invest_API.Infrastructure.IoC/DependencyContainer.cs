@@ -18,27 +18,51 @@ namespace Tech_Invest_API.Infrastructure.IoC;
 
 public class DependencyContainer
 {
+    private static IServiceCollection _services;
+    private static IConfiguration _configuration;
+
     public static void RegisterServices(IServiceCollection services, IConfiguration configuration)
     {
-        // Entity Framework
-        services.AddEntityFrameworkSqlServer()
-            .AddDbContext<TechInvestDbContext>(
-                options => options.UseSqlServer(configuration.GetConnectionString("DataBase"))
-            );
+        _services = services;
+        _configuration = configuration;
 
+        RegisterEntityFramework();
+
+        RegisterAutoMapper();
+
+        RegisterAuthentication();
+
+        RegisterInjections();
+    }
+
+    private static void RegisterEntityFramework()
+    {
+        // Entity Framework
+        _services.AddEntityFrameworkSqlServer()
+            .AddDbContext<TechInvestDbContext>(
+                options => options.UseSqlServer(_configuration.GetConnectionString("DataBase"))
+            );
+    }
+
+    private static void RegisterAutoMapper()
+    {
         // Auto Mapper
-        services.AddSingleton(r =>
+        _services.AddSingleton(r =>
         {
             var mapperConfiguration = new MapperConfiguration(mc =>
             {
                 mc.AddProfile<UsuarioProfile>();
+                mc.AddProfile<TipoInvestimentoProfile>();
             });
 
             return mapperConfiguration.CreateMapper();
         });
+    }
 
+    private static void RegisterAuthentication()
+    {
         // Authentication
-        services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+        _services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>
             {
                 options.TokenValidationParameters = new TokenValidationParameters
@@ -47,9 +71,9 @@ public class DependencyContainer
                     ValidateAudience = true,
                     ValidateLifetime = true,
                     ValidateIssuerSigningKey = true,
-                    ValidIssuer = configuration["JwtSettings:Issuer"],
-                    ValidAudience = configuration["JwtSettings:Audience"],
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JwtSettings:Key"]!))
+                    ValidIssuer = _configuration["JwtSettings:Issuer"],
+                    ValidAudience = _configuration["JwtSettings:Audience"],
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JwtSettings:Key"]!))
                 };
 
                 options.Events = new JwtBearerEvents
@@ -66,8 +90,8 @@ public class DependencyContainer
                     }
                 };
             });
-        
-        services.AddAuthorization(options =>
+
+        _services.AddAuthorization(options =>
         {
             options.AddPolicy("UpdateUsuarioPolicy", policy =>
             {
@@ -75,14 +99,19 @@ public class DependencyContainer
             });
         });
 
-        services.AddSingleton<IAuthorizationHandler, UpdateUsuarioAuthorizationHandler>();
+        _services.AddSingleton<IAuthorizationHandler, UpdateUsuarioAuthorizationHandler>();
 
+        _services.AddHttpContextAccessor();
+    }
+
+    private static void RegisterInjections()
+    {
         // Application Layer
-        services.AddScoped<IUsuarioService, UsuarioService>();
+        _services.AddScoped<IUsuarioService, UsuarioService>();
+        _services.AddScoped<ITipoInvestimentoService, TipoInvestimentoService>();
 
         // Data Layer
-        services.AddScoped<IUsuarioRepository, UsuarioRepository>();
-
-        services.AddHttpContextAccessor();
+        _services.AddScoped<IUsuarioRepository, UsuarioRepository>(); 
+        _services.AddScoped<ITipoInvestimentoRepository, TipoInvestimentoRepository>();
     }
 }

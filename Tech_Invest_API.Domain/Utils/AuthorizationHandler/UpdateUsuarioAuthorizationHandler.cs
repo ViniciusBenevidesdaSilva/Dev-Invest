@@ -17,7 +17,7 @@ public class UpdateUsuarioAuthorizationHandler : AuthorizationHandler<UpdateUsua
 
     protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, UpdateUsuarioRequirement requirement)
     {
-        if (context.User.IsInRole(UserRole.Admin.ToString()))
+        if (context.User.IsInRole(EnumUserRole.Admin.ToString()))
         {
             context.Succeed(requirement);
             return Task.CompletedTask;

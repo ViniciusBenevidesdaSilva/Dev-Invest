@@ -22,6 +22,43 @@ namespace Tech_Invest_API.Infrastructure.Data.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
+            modelBuilder.Entity("Tech_Invest_API.Domain.Model.TipoInvestimento", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<DateTime?>("DataAlteracao")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DataCriacao")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Descricao")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("IdUsuarioAlteracao")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("IdUsuarioCriacao")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Nome")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IdUsuarioAlteracao");
+
+                    b.HasIndex("IdUsuarioCriacao");
+
+                    b.ToTable("TiposInvestimento");
+                });
+
             modelBuilder.Entity("Tech_Invest_API.Domain.Model.Usuario", b =>
                 {
                     b.Property<int>("Id")
@@ -54,6 +91,21 @@ namespace Tech_Invest_API.Infrastructure.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Usuarios");
+                });
+
+            modelBuilder.Entity("Tech_Invest_API.Domain.Model.TipoInvestimento", b =>
+                {
+                    b.HasOne("Tech_Invest_API.Domain.Model.Usuario", "UsuarioAlteracao")
+                        .WithMany()
+                        .HasForeignKey("IdUsuarioAlteracao");
+
+                    b.HasOne("Tech_Invest_API.Domain.Model.Usuario", "UsuarioCriacao")
+                        .WithMany()
+                        .HasForeignKey("IdUsuarioCriacao");
+
+                    b.Navigation("UsuarioAlteracao");
+
+                    b.Navigation("UsuarioCriacao");
                 });
 #pragma warning restore 612, 618
         }

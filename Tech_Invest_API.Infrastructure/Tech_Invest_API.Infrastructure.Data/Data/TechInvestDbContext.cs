@@ -10,10 +10,12 @@ public class TechInvestDbContext : DbContext
         : base(options) { }
 
     public DbSet<Usuario> Usuarios { get; set; }
+    public DbSet<TipoInvestimento> TiposInvestimento { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfiguration(new UsuarioMap());
+        modelBuilder.ApplyConfiguration(new TipoInvestimentoMap());
 
         base.OnModelCreating(modelBuilder);
     }

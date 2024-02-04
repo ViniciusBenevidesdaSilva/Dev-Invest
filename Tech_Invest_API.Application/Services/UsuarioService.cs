@@ -4,77 +4,43 @@ using Tech_Invest_API.Application.ViewModel;
 using Tech_Invest_API.Domain.Interfaces;
 using Tech_Invest_API.Domain.Model;
 using Tech_Invest_API.Domain.Utils;
+using Tech_Invest_API.Domain.Utils.Enums;
 
 namespace Tech_Invest_API.Application.Services;
 
-public class UsuarioService : IUsuarioService
+public class UsuarioService : CrudService<Usuario, UsuarioViewModel>, IUsuarioService
 {
-    private readonly IUsuarioRepository _usuarioRepository;
+    private readonly IUsuarioRepository _repository;
     private readonly IMapper _mapper;
 
-    public UsuarioService(IUsuarioRepository usuarioRepository, IMapper mapper)
+    public UsuarioService(IUsuarioRepository repository, IMapper mapper) : base(repository, mapper)
     {
-        _usuarioRepository = usuarioRepository;
+        _repository = repository;
         _mapper = mapper;
     }
 
-    public async Task<IList<UsuarioViewModel>> GetUsuarioAsync()
+    public async Task<UsuarioViewModel> GetByEmailAsync(string? email)
     {
-        var usuario = await _usuarioRepository.GetAllAsync();
-        return _mapper.Map<IList<Usuario>, IList<UsuarioViewModel>>(usuario);
-    }
-
-    public async Task<UsuarioViewModel> GetUsuarioByIdAsync(int id)
-    {
-        var usuario = await _usuarioRepository.GetByIdAsync(id);
+        var usuario = await _repository.GetByEmailAsync(email);
         return _mapper.Map<Usuario, UsuarioViewModel>(usuario);
     }
 
-    public async Task<UsuarioViewModel> GetUsuarioByEmailAsync(string? email)
+    public override async Task<int> CreateAsync(UsuarioViewModel usuario)
     {
-        var usuario = await _usuarioRepository.GetByEmailAsync(email);
-        return _mapper.Map<Usuario, UsuarioViewModel>(usuario);
-    }
-
-    public async Task<int> CreateAsync(UsuarioViewModel usuario)
-    {
-        usuario.Id = 0;
-        var log = await ValidaUsuario(usuario);
-
-        if(log.Count > 0)
-            throw new Exception("Usuário inválido: " + String.Join("; ", log));
-
-        var usuarioModel = _mapper.Map<UsuarioViewModel, Usuario>(usuario);
+        var retorno = await base.CreateAsync(usuario);
 
         usuario.Senha = string.Empty;
 
-        return await _usuarioRepository.CreateAsync(usuarioModel);
+        return retorno;
     }
 
-    public async Task<UsuarioViewModel> UpdateAsync(UsuarioViewModel usuario, int id)
+    public override async Task<UsuarioViewModel> UpdateAsync(UsuarioViewModel usuario, int id)
     {
-        usuario.Id = id;
-        var log = await ValidaUsuario(usuario);
-
-        if (log.Count > 0)
-            throw new Exception("Usuário inválido: " + String.Join("; ", log));
-
-        var usuarioModel = _mapper.Map<UsuarioViewModel, Usuario>(usuario);
-        var usuarioBanco = await _usuarioRepository.GetByIdAsync(usuario.Id);
-
-        if(usuarioBanco is null)
-            throw new Exception($"Usuário de id {id} não encontrado");
-
-        usuarioBanco.Nome = usuarioModel.Nome;
-        usuarioBanco.Email = usuarioModel.Email;
-        usuarioBanco.Senha = usuarioModel.Senha;
-        usuarioBanco.UserRole = usuarioModel.UserRole;
+        var retorno = await base.UpdateAsync(usuario, id);
 
         usuario.Senha = string.Empty;
 
-        var retorno = await _usuarioRepository.UpdateAsync(usuarioBanco);
-
-        return _mapper.Map<Usuario, UsuarioViewModel>(retorno);
+        return retorno;
     }
 
     public async Task<UsuarioViewModel?> AutenticarUsuario(UsuarioViewModel usuario)
@@ -85,7 +51,7 @@ public class UsuarioService : IUsuarioService
         if (string.IsNullOrEmpty(usuario.Email) || string.IsNullOrEmpty(usuario.Senha))
             return null;
 
-        var usuarioBanco = await _usuarioRepository.GetByEmailAsync(usuario.Email);
+        var usuarioBanco = await _repository.GetByEmailAsync(usuario.Email);
 
         if (usuarioBanco is null || !SenhaUtils.ValidarSenha(usuario.Senha, usuarioBanco.Senha))
             return null;
@@ -97,7 +63,7 @@ public class UsuarioService : IUsuarioService
         return usuario;
     }
 
-    private async Task<IList<string>> ValidaUsuario(UsuarioViewModel usuario)
+    internal override async Task<IList<string>> ValidaViewModel(UsuarioViewModel usuario)
     {
         var retorno = new List<string>();
 
@@ -107,24 +73,26 @@ public class UsuarioService : IUsuarioService
             return retorno;
         }
 
-        if (usuario?.Id < 0)
+        if (usuario!.Id < 0)
             retorno.Add("O Id do usuário deve ser maior que 0");
 
-        if (!RegexUtils.ValidaFormatoEmail(usuario?.Email))
+        if (!RegexUtils.ValidaFormatoEmail(usuario!.Email))
             retorno.Add("Email não está no formato válido");
-
-        var usuarioEmailBanco = await GetUsuarioByEmailAsync(usuario?.Email);
-
-        if(usuarioEmailBanco is not null)
+        else
         {
-            if (usuario?.Id == 0 || usuario?.Id != usuarioEmailBanco?.Id)
-                retorno.Add("Email já cadastrado");
+            var usuarioEmailBanco = await GetByEmailAsync(usuario!.Email);
+
+            if (usuarioEmailBanco is not null)
+            {
+                if (usuario!.Id == 0 || usuario!.Id != usuarioEmailBanco!.Id)
+                    retorno.Add("Email já cadastrado");
+            }
         }
 
-        if (usuario?.Senha?.Length < 3)
+        if (string.IsNullOrEmpty(usuario!.Senha) || usuario!.Senha?.Length < 3)
             retorno.Add("A senha deve possuir ao menos 3 caracteres");
 
-        if (!usuario.UserRole.HasValue)
+        if (!usuario.UserRole.HasValue || !Enum.IsDefined(typeof(EnumUserRole), usuario.UserRole))
             retorno.Add("User Role inválido.");
 
         return retorno;

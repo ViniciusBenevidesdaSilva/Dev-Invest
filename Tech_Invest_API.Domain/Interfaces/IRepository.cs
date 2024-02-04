@@ -2,7 +2,7 @@
 
 namespace Tech_Invest_API.Domain.Interfaces;
 
-public interface IRepository<T> where T : Entity
+public interface IRepository<T> where T : BaseEntity
 {
     Task<IList<T>> GetAllAsync();
     Task<T> GetByIdAsync(int id);

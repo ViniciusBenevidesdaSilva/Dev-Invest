@@ -23,7 +23,7 @@ public class UsuarioController : ControllerBase
     {
         try
         {
-            var usuario = await _usuarioService.GetUsuarioAsync();
+            var usuario = await _usuarioService.GetAsync();
             return Ok(usuario);
         }
         catch (Exception ex)
@@ -38,7 +38,7 @@ public class UsuarioController : ControllerBase
     {
         try
         {
-            var usuario = await _usuarioService.GetUsuarioByIdAsync(id);
+            var usuario = await _usuarioService.GetByIdAsync(id);
             if (usuario is null)
                 return NotFound();
 
@@ -56,7 +56,7 @@ public class UsuarioController : ControllerBase
     {
         try
         {
-            var usuario = await _usuarioService.GetUsuarioByEmailAsync(email);
+            var usuario = await _usuarioService.GetByEmailAsync(email);
             if (usuario is null)
                 return NotFound();
 
